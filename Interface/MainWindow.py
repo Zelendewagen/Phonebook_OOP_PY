@@ -27,12 +27,12 @@ def start():
     #
     menu_bar = tk.Menu(main_window, tearoff=0)
     main_window.config(menu=menu_bar)
-    new_spr = 'Новый справочник'
-    menu_bar.add_command(label=new_spr, command=Controller.new_file)
+    clear = 'Очистить справочник'
+    menu_bar.add_command(label=clear, command=Controller.new_file)
     menu_bar.add_separator()
-    menu_bar.add_command(label='Открыть', command=TopWindow.create_open_window)
+    menu_bar.add_command(label='Открыть', command=Controller.open_file)
     menu_bar.add_separator()
-    menu_bar.add_command(label='Сохранить', command=TopWindow.create_save_window)
+    menu_bar.add_command(label='Сохранить', command=Controller.save_file)
     #
 
     heads = ['id', 'Имя', 'Телефон', 'Комментарий']
@@ -52,7 +52,7 @@ def start():
     #
     dbv = 'Добавить контакт'
     add_button = tk.Button(main_window, text=dbv,
-                           command=lambda: Controller.add_contact())
+                           command=lambda: TopWindow.create_add_window())
     add_button.pack(padx=25, pady=4, ipadx=20, anchor='w')
     #
     string_bar = tk.StringVar()
@@ -61,6 +61,8 @@ def start():
     search_label.place(x=200, y=253, anchor='sw')
     search_bar = ttk.Entry(main_window, width=40, textvariable=string_bar)
     search_bar.place(x=250, y=253, anchor='sw')
+    #
+    Controller.open_file(temp=True)
     #
     main_window.mainloop()
 
@@ -74,7 +76,7 @@ def right_button_menu(event):
     event.widget.focus()
     file_menu = tk.Menu(popup_menu, tearoff=0)
     file_menu.add_command(label='Изменить контакт',
-                          command=lambda: Controller.change_contact(row_id))
+                          command=lambda: TopWindow.create_change_window(main_table.item(row_id).get('values')))
     file_menu.add_separator()
     file_menu.add_command(label='Удалить контакт',
                           command=lambda: Controller.delete_contact(row_id))
@@ -90,7 +92,7 @@ def search_str(*args):
 def search_contact(text):
     search_list = []
     for contact in Model.my_phonebook.contacts:
-        for item in contact.items()[:-1]:
+        for item in contact.items():
             if text.lower() in item.lower() and text != '':
                 search_list.append(contact.items())
                 break

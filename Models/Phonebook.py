@@ -27,9 +27,9 @@ class PhoneBook:
         show_id = None
         for user in self.contacts:
             if user.id == id:
-                show_id = id+1
+                show_id = id + 1
                 break
-        return self.contacts[show_id-1].show() if show_id else None
+        return self.contacts[show_id - 1].show() if show_id else None
 
     def show_all(self):
         all_users = []
@@ -41,9 +41,9 @@ class PhoneBook:
         get_id = None
         for (index, user) in enumerate(self.contacts):
             if user.id == id:
-                get_id = index+1
+                get_id = index + 1
                 break
-        return self.contacts[get_id-1] if get_id else None
+        return self.contacts[get_id - 1] if get_id else None
 
     def set(self, id: int, name: str, phone: str, comment: str):
         for (index, user) in enumerate(self.contacts):
@@ -52,8 +52,6 @@ class PhoneBook:
                 self.contacts[index].phone = phone
                 self.contacts[index].comment = comment
 
-
     def clear(self):
         self.contacts.clear()
-        self.last_id = 0
-
+        self.last_id = '0'
